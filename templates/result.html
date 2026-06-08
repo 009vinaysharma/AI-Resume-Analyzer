@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block title %}Analysis Results – ResumeAI{% endblock %}
+
+{% block content %}
+{% set parsed = analysis.parsed %}
+{% set ats    = analysis.ats %}
+{% set pred   = analysis.prediction %}
+
+<section class="result-section">
+
+  <!-- Top bar -->
+  <div class="result-topbar">
+    <div>
+      <h1 class="result-name">{{ parsed.name }}</h1>
+      <span class="result-meta">{{ parsed.email }}{% if parsed.phone %} · {{ parsed.phone }}{% endif %}</span>
+    </div>
+    <div class="result-actions">
+      {% if report_name %}
+        <a href="{{ url_for('download_report', report_name=report_name) }}" class="btn btn-primary">⬇ Download PDF</a>
+      {% endif %}
+      <a href="{{ url_for('index') }}#upload" class="btn btn-ghost">+ New Analysis</a>
+    </div>
+  </div>
+
+  <!-- Summary stat cards -->
+  <div class="result-cards">
+
+    <!-- ATS Score circular -->
+    <div class="result-card card-ats">
+      <div class="ats-ring-wrap">
+        <svg class="ats-ring" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" class="ring-bg"/>
+          <circle cx="60" cy="60" r="50" class="ring-fill"
+            style="--score: {{ ats.total_score }};"
+            id="ringFill"/>
+        </svg>
+        <div class="ats-number">{{ ats.total_score }}</div>
+      </div>
+      <div class="card-label">ATS Score</div>
+      <div class="rating-badge rating-{{ ats.rating | lower | replace(' ','') }}">{{ ats.rating }}</div>
+    </div>
+
+    <!-- Predicted role -->
+    <div class="result-card card-role">
+      <div class="card-icon">🎯</div>
+      <div class="card-value">{{ pred.predicted_role }}</div>
+      <div class="card-label">Predicted Role</div>
+      <div class="confidence-bar-wrap">
+        <div class="confidence-bar" style="width:{{ pred.confidence }}%"></div>
+      </div>
+      <span class="confidence-label">{{ pred.confidence }}% confidence</span>
+      {% if pred.top_predictions | length > 1 %}
+      <div class="top-preds">
+        {% for role, pct in pred.top_predictions %}
+          <span class="pred-tag">{{ role }} {{ pct }}%</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Skills count -->
+    <div class="result-card card-skills">
+      <div class="card-icon">🔍</div>
+      <div class="card-value">{{ parsed.skills | length }}</div>
+      <div class="card-label">Skills Detected</div>
+      {% if ats.missing_skills %}
+        <div class="missing-count">{{ ats.missing_skills | length }} missing</div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ATS Components -->
+  <div class="result-row">
+    <div class="result-panel">
+      <h2 class="panel-title">📊 ATS Score Breakdown</h2>
+      {% for name, val in ats.components.items() %}
+      <div class="comp-row">
+        <span class="comp-name">{{ name | title }}</span>
+        <div class="comp-bar-wrap">
+          <div class="comp-bar" style="width:{{ val }}%"></div>
+        </div>
+        <span class="comp-val">{{ val }}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Sections present -->
+    <div class="result-panel">
+      <h2 class="panel-title">✅ Resume Sections</h2>
+      <div class="sections-grid">
+        {% for sec, present in ats.sections_present.items() %}
+        <div class="section-chip {% if present %}chip-yes{% else %}chip-no{% endif %}">
+          {{ '✓' if present else '✗' }} {{ sec | title }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills by category -->
+  <div class="result-panel full-width">
+    <h2 class="panel-title">🔍 Detected Skills</h2>
+    {% if parsed.skills_by_category %}
+      {% for cat, skills in parsed.skills_by_category.items() %}
+      <div class="skill-group">
+        <span class="skill-cat">{{ cat }}</span>
+        <div class="skill-tags">
+          {% for skill in skills %}
+            <span class="skill-tag">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="muted">No structured skills found.</p>
+    {% endif %}
+  </div>
+
+  <!-- Missing skills -->
+  {% if ats.missing_skills %}
+  <div class="result-panel full-width panel-danger">
+    <h2 class="panel-title">⚠ Missing Skills for {{ ats.target_role }}</h2>
+    <div class="skill-tags">
+      {% for skill in ats.missing_skills %}
+        <span class="skill-tag tag-missing">{{ skill }}</span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- AI Summary -->
+  {% if analysis.summary %}
+  <div class="result-panel full-width panel-accent">
+    <h2 class="panel-title">🤖 AI-Generated Professional Summary</h2>
+    <p class="ai-summary">{{ analysis.summary }}</p>
+  </div>
+  {% endif %}
+
+  <!-- AI Suggestions -->
+  {% if analysis.feedback %}
+  <div class="result-panel full-width">
+    <h2 class="panel-title">💡 AI Improvement Suggestions</h2>
+    <ol class="suggestion-list">
+      {% for tip in analysis.feedback %}
+        <li>{{ tip }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+
+  <!-- Interview Tips -->
+  {% if analysis.interview_tips %}
+  <div class="result-panel full-width panel-success">
+    <h2 class="panel-title">🎤 Interview Preparation Tips</h2>
+    <ol class="suggestion-list">
+      {% for tip in analysis.interview_tips %}
+        <li>{{ tip }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+
+</section>
+{% endblock %}

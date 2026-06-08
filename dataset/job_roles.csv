@@ -1,0 +1,31 @@
+skills,role
+python,django,flask,postgresql,mysql,rest api,docker,linux,git,Backend Developer
+javascript,react,html,css,redux,webpack,node.js,git,responsive design,Frontend Developer
+python,javascript,react,django,flask,postgresql,docker,git,html,css,Full Stack Developer
+python,machine learning,scikit-learn,pandas,numpy,tensorflow,data analysis,sql,matplotlib,Data Scientist
+python,deep learning,tensorflow,pytorch,nlp,machine learning,transformers,langchain,openai,AI Engineer
+node.js,express,mongodb,rest api,docker,kubernetes,postgresql,redis,git,Backend Developer
+react,typescript,html,css,sass,webpack,jest,figma,responsive,Frontend Developer
+python,fastapi,postgresql,docker,kubernetes,redis,celery,git,linux,Backend Developer
+vue.js,javascript,html,css,nuxt,git,rest api,figma,tailwind,Frontend Developer
+python,pandas,numpy,matplotlib,seaborn,scikit-learn,sql,tableau,statistics,Data Scientist
+pytorch,transformers,nlp,computer vision,deep learning,python,cuda,hugging face,bert,AI Engineer
+react,node.js,express,mongodb,javascript,html,css,docker,git,Full Stack Developer
+django,python,postgresql,redis,celery,docker,rest api,linux,aws,Backend Developer
+angular,typescript,html,scss,rxjs,jest,figma,git,ci/cd,Frontend Developer
+python,tensorflow,keras,computer vision,nlp,flask,docker,git,pandas,AI Engineer
+java,spring boot,hibernate,postgresql,docker,kubernetes,rest api,git,maven,Backend Developer
+react,next.js,typescript,tailwind,git,vercel,api,javascript,html,Full Stack Developer
+sql,python,power bi,tableau,excel,statistics,data cleaning,pandas,visualization,Data Scientist
+llm,langchain,openai,python,vector database,embeddings,rag,fastapi,prompt engineering,AI Engineer
+php,laravel,mysql,javascript,html,css,rest api,git,linux,Backend Developer
+svelte,javascript,html,css,vite,git,rest api,figma,responsive,Frontend Developer
+python,r,statistics,machine learning,deep learning,sql,visualization,pandas,numpy,Data Scientist
+go,docker,kubernetes,postgresql,rest api,grpc,redis,linux,git,Backend Developer
+react,graphql,typescript,node.js,postgresql,docker,git,html,css,Full Stack Developer
+mlops,kubernetes,docker,python,tensorflow,model deployment,ci/cd,git,aws,AI Engineer
+ruby,rails,postgresql,redis,docker,rest api,git,javascript,html,Backend Developer
+html,css,javascript,bootstrap,jquery,figma,git,responsive,seo,Frontend Developer
+python,spark,hadoop,kafka,data pipeline,sql,aws,docker,scala,Data Scientist
+bert,gpt,fine-tuning,python,pytorch,transformers,nlp,text classification,hugging face,AI Engineer
+kotlin,android,java,rest api,sqlite,firebase,git,mvvm,coroutines,Backend Developer

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – ResumeAI{% endblock %}
+{% block content %}
+<section class="dashboard-section">
+  <div class="dash-header">
+    <h1>Welcome, <span class="gradient-text">{{ session.username }}</span></h1>
+    <a href="{{ url_for('index') }}#upload" class="btn btn-primary">+ New Analysis</a>
+  </div>
+
+  {% if analyses %}
+  <div class="dash-grid">
+    <!-- Summary cards -->
+    <div class="dash-stat-card">
+      <div class="dsc-icon">📄</div>
+      <div class="dsc-info">
+        <span class="dsc-num">{{ analyses | length }}</span>
+        <span class="dsc-label">Total Analyses</span>
+      </div>
+    </div>
+    <div class="dash-stat-card">
+      <div class="dsc-icon">🏆</div>
+      <div class="dsc-info">
+        <span class="dsc-num">{{ analyses[0].ats_score | round(1) }}</span>
+        <span class="dsc-label">Latest ATS Score</span>
+      </div>
+    </div>
+    <div class="dash-stat-card">
+      <div class="dsc-icon">🎯</div>
+      <div class="dsc-info">
+        <span class="dsc-num">{{ analyses[0].predicted_role }}</span>
+        <span class="dsc-label">Latest Role Prediction</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Resume History</h2>
+  <div class="history-table-wrap">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>#</th><th>File</th><th>ATS Score</th><th>Role</th><th>Date</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in analyses %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="mono">{{ a.filename }}</td>
+          <td>
+            <span class="score-badge {% if a.ats_score >= 80 %}score-good{% elif a.ats_score >= 60 %}score-avg{% else %}score-low{% endif %}">
+              {{ a.ats_score | round(1) }}
+            </span>
+          </td>
+          <td>{{ a.predicted_role }}</td>
+          <td>{{ a.created[:10] }}</td>
+          <td>
+            {% if a.report_path %}
+              <a href="{{ url_for('download_report', report_name=a.report_path) }}" class="btn btn-ghost btn-sm">⬇ PDF</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>No analyses yet</h3>
+    <p>Upload your first resume to get started!</p>
+    <a href="{{ url_for('index') }}#upload" class="btn btn-primary">Analyze Resume</a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
