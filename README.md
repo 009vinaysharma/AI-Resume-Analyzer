@@ -35,7 +35,7 @@ python model/train_model.py
 python app.py
 ```
 
-Open http://127.0.0.1:5000 in your browser.
+Open https://resumeanalyzer.vinaysharmatech.xyz/ in your browser.
 
 ## Get a Gemini API Key
 1. Go to https://aistudio.google.com/
